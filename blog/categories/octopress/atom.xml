@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Drink Beer, Do Something]]></title>
   <link href="http://narutaro.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
-  <updated>2014-04-26T12:02:16-07:00</updated>
+  <updated>2014-04-26T13:32:07-07:00</updated>
   <id>http://narutaro.github.io/</id>
   <author>
     <name><![CDATA[narutaro]]></name>
@@ -28,7 +28,7 @@
 </div>
 </div>
 
-<p><a href="https://ghost.org/">Ghost</a>風になる<a href="https://github.com/jmromer/casper">Casper</a>というテーマがあるのですが，それが， Octopressデフォルトのマークダウンエンジンの代わりにkramdownを使い，コードハイライトにCodeRayをつかっていい感じにしていました．Casperテーマ全体を当てるのは躊躇したので，KramdownとCodeRayのところだけやります．<a href="http://blog.codebykat.com/2013/05/23/gorgeous-octopress-codeblocks-with-coderay/">ここのサイト</a>が分かりやすいです．</p>
+<p><a href="https://ghost.org/">Ghost</a>風になる<a href="https://github.com/jmromer/casper">Casper</a>というテーマがあるのですが，それが， Octopressデフォルトのマークダウンエンジンの代わりにkramdownを使い，コードハイライトにCodeRayをつかっていい感じにしていました．Casperテーマ全体を当てるのは躊躇したので，KramdownとCodeRayのところだけやります．[ここ]のサイト(http://blog.codebykat.com/2013/05/23/gorgeous-octopress-codeblocks-with-coderay/)が分かりやすいです．</p>
 
 <blockquote>
   <p>By default, Octopress uses a Markdown processor called RDiscount, which defaults to Pygments for code highlighting. Pygments doesn’t seem to have too many options, but it turns out if we switch to kramdown for Markdown processing, we can swap Pygments out for a highlighter called CodeRay. CodeRay allows for much more customization.</p>
@@ -41,7 +41,7 @@
 
 <ul>
   <li>先のサイトで使っている<code>.scss</code>ファイルをとってくるのは<a href="https://gist.github.com/andrewpthorp/5134070">ここ</a>です．</li>
-  <li><code>{:lang=“language”}</code>の指定をしないと変更が適用されません．<code>~~~</code>で囲むだけだけだとだめです．</li>
+  <li>CodeRayでのコードブロックは`````で囲むのではなくて<code>~~~</code>です．また，<code>{:lang=“language”}</code>の指定をしないと変更が適用されません．<code>~~~</code>で囲むだけだけだとだめです．</li>
 </ul>
 
 <p>こんな感じ．ここまでやって気づいたけどCodeRayってなんかGitHub上では8ヶ月ほど動き止まってる感じ．大丈夫かな？</p>
