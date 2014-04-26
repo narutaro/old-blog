@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Drink Beer, Do Something</title>
+  <title>Octopressのコードブロックをカスタマイズ - Drink Beer, Do Something</title>
   <meta name="author" content="narutaro">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://narutaro.github.io">
+  <link rel="canonical" href="http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Drink Beer, Do Something" type="application/atom+xml">
@@ -76,15 +76,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/04/26/octopress-codeblock-customize/">Octopressのコードブロックをカスタマイズ</a></h1>
+      <h1 class="entry-title">Octopressのコードブロックをカスタマイズ</h1>
     
     
       <p class="meta">
@@ -107,7 +104,7 @@
   </header>
 
 
-  <div class="entry-content"><h1 id="section">コードブロックの枠の色を変更</h1>
+<div class="entry-content"><h1 id="section">コードブロックの枠の色を変更</h1>
 <p>コードブロックの背景色がデフォルトで紺色みたいな色で見にくいので，もっと明るい色に変更します．基本的に，色カスタマイズは<code>octopress/sass/custom/_colors</code>でやればいいのですが，ここで一つづつ変更するのもめんどくさい．このファイルの以下の部分のコメントを外せばとりあえず明るい色にはなるけど，背景は黄色っぽくてあんまり見やすくない．</p>
 
 <div><div class="CodeRay">
@@ -135,22 +132,16 @@
 
 <p>こんな感じ．ここまでやって気づいたけどCodeRayってなんかGitHub上では8ヶ月ほど動き止まってる感じ．大丈夫かな？</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/25/octopress/">Octopressでハッカー的ブログ</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">narutaro</span></span>
+
+      
 
 
 
@@ -162,150 +153,38 @@
   
 
 
-<time datetime="2014-04-25T18:24:48-07:00" pubdate data-updated="true">Apr 25<span>th</span>, 2014</time>
-        
-      </p>
+<time datetime="2014-04-26T11:51:42-07:00" pubdate data-updated="true">Apr 26<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h1 id="octopress--github-pages">Octopress &amp; Github pages</h1>
-<p>Tumblrからの乗り換えの為，新しいブログサービス探してたときに<a href="http://octopress.org/">Octopress</a>という良さげなものを発見．<a href="https://github.com/jekyll/jekyll">Jekyll</a>というRubyで書かれたスタティックサイトジェネレータを使ったブログ作成ツールっぽい．</p>
-
-<blockquote>
-  <p>Octopress is a blog framework for hackers</p>
-</blockquote>
-
-<p>とか書いてあって，カッコイイ．さらにGitHubが，”GitHub Pages”っていう，GitHubのプロジェクトWebページを作る為のサイトを用意していて，そこにOctopressで作ったスタティックなページを<code>push</code>することで，無料でgithub.ioドメイン上にブログサイトができるとのこと．よし，これは試すぞ．</p>
-
-<h1 id="mac-mavericks">Mac Mavericksへのインストールと設定</h1>
-<p>基本的に，<a href="http://octopress.org/">Octopressの公式サイト</a>に従うだけ……と思ったら，さすがハッカー向けだけあっていくつかハマったのでその辺りを書いていきます．</p>
-
-<h2 id="ruby">Rubyのバージョン</h2>
-<p>公式サイトのここに</p>
-
-<blockquote>
-  <p>If ruby –version doesn’t say you’re using Ruby <strong>at least</strong> 1.9.3, revisit your rbenv or RVM installation.</p>
-</blockquote>
-
-<p>とあったので，1.9.3以上だったらいいのかなと思い，Mavericksのデフォルトの<code>ruby 2.0.0p451 (2014-02-24 revision 45167) [universal.x86_64-darwin13]</code>でそのままいったら，いろいろエラーをいただきました．</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>macbook:octopress hacker$ sudo bundle install
-Password:
-Fetching gem metadata from https://rubygems.org/.......
-Fetching additional metadata from https://rubygems.org/..
-Using rake 0.9.2.2
-
-Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
-
-    /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby extconf.rb -with-cflags=-w
-checking for main() in -lc... yes
-creating Makefile
-
-make &quot;DESTDIR=&quot; clean
-
-make &quot;DESTDIR=&quot;
-compiling redcloth_attributes.c
-compiling redcloth_inline.c
-compiling redcloth_scan.c
-linking shared-object redcloth_scan.bundle
-clang: error: unknown argument: '-multiply_definedsuppress' [-Wunused-command-line-argument-hard-error-in-future]
-clang: note: this will be a hard error (cannot be downgraded to a warning) in the future
-make: *** [redcloth_scan.bundle] Error 1
-
-make failed, exit code 2
-
-Gem files will remain installed in /Library/Ruby/Gems/2.0.0/gems/RedCloth-4.2.9 for inspection.
-Results logged to /Library/Ruby/Gems/2.0.0/extensions/universal-darwin-13/2.0.0/RedCloth-4.2.9/gem_make.out
-An error occurred while installing RedCloth (4.2.9), and Bundler cannot continue.
- 
-Make sure that `gem install RedCloth -v '4.2.9'` succeeds before bundling.
-</pre></div>
-</div>
-</div>
-
-<p>ちゃんと<code>rbenv</code>か<code>rvm</code>を入れて，<code>1.9.3</code>に切り替えてからインストールに挑みましょう．</p>
-
-<h2 id="xcode">Xcodeのコマンドラインツールの変更</h2>
-<p>公式サイトのインストール手順のところで<code>bundle install</code>するところが<a href="http://octopress.org/docs/setup/">ある</a>のですが，ここでかなりコケました．よく理由が分からなかったのですが，<a href="https://langui.sh/2014/03/10/wunused-command-line-argument-hard-error-in-future-is-a-harsh-mistress/">ここのサイト</a>によると，Xcodeのバージョンアップにより，<code>unknown compiler flags</code>のエラーが <em>warn</em>ではなくて，<em>hard error</em>になって止まるようになったっぽいです．以下のように，よくわからないフラグはほっておいてとお願いしたら，進みました．</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>export ARCHFLAGS=&quot;-Wno-error=unused-command-line-argument-hard-error-in-future&quot;
-</pre></div>
-</div>
-</div>
-
-<p>……でも本当にこれが原因だったのか？ これにはまってるときにやったリブートが効いている気がしないでもない．</p>
-
-<h2 id="rake">二つのrake</h2>
-<p>なんかの拍子にrakeが二つはいったみたいで，おこられた．<code>0.9.2.2</code>がいるっぽい．</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>macbook:octopress hacker$ rake install
-rake aborted!
-Gem::LoadError: You have already activated rake 10.2.2, but your Gemfile requires rake 0.9.2.2. Prepending `bundle exec` to your command may solve this.
-/Users/inoue/octopress/Rakefile:2:in `&lt;top (required)&gt;'
-(See full trace by running task with --trace)
-</pre></div>
-</div>
-</div>
-
-<p>確認してみると，確かに二つのバージョンがはいっていました．</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>macbook:octopress hacker$ gem list | grep rake
-rake (10.2.2, 0.9.2.2)
-</pre></div>
-</div>
-</div>
-
-<p>rake 10.2.2を削除してみます.</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>macbook:octopress hacker$ gem uninstall rake `10.2.2`
--bash: 10.2.2: command not found
-
-Select gem to uninstall:
- 1. rake-0.9.2.2
- 2. rake-10.2.2
- 3. All versions
-&gt; 2
-Successfully uninstalled rake-10.2.2
-</pre></div>
-</div>
-</div>
-
-<p>あらためて，<code>rake install</code></p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>rake install
-## Copying classic theme into ./source and ./sass
-mkdir -p source
-cp -r .themes/classic/source/. source
-mkdir -p sass
-cp -r .themes/classic/sass/. sass
-mkdir -p source/_posts
-mkdir -p public
-</pre></div>
-</div>
-</div>
-
-<p>いけた．インストールと設定については，こんなところ．</p>
-
-</div>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize/" data-via="narutaro" data-counturl="http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize/" >Tweet</a>
   
   
-
-
-    </article>
   
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/25/octopress/" title="Previous Post: Octopressでハッカー的ブログ">&laquo; Octopressでハッカー的ブログ</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -329,6 +208,7 @@ mkdir -p public
 
   
 </aside>
+
 
     </div>
   </div>

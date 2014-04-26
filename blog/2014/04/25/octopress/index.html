@@ -1,59 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Drink Beer, Do Something]]></title>
-  <link href="http://narutaro.github.io/atom.xml" rel="self"/>
-  <link href="http://narutaro.github.io/"/>
-  <updated>2014-04-26T12:02:16-07:00</updated>
-  <id>http://narutaro.github.io/</id>
-  <author>
-    <name><![CDATA[narutaro]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Octopressでハッカー的ブログ - Drink Beer, Do Something</title>
+  <meta name="author" content="narutaro">
 
   
-  <entry>
-    <title type="html"><![CDATA[Octopressのコードブロックをカスタマイズ]]></title>
-    <link href="http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize/"/>
-    <updated>2014-04-26T11:51:42-07:00</updated>
-    <id>http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize</id>
-    <content type="html"><![CDATA[<h1 id="section">コードブロックの枠の色を変更</h1>
-<p>コードブロックの背景色がデフォルトで紺色みたいな色で見にくいので，もっと明るい色に変更します．基本的に，色カスタマイズは<code>octopress/sass/custom/_colors</code>でやればいいのですが，ここで一つづつ変更するのもめんどくさい．このファイルの以下の部分のコメントを外せばとりあえず明るい色にはなるけど，背景は黄色っぽくてあんまり見やすくない．</p>
+  <meta name="description" content="Octopress &amp; Github pages
+Tumblrからの乗り換えの為，新しいブログサービス探してたときにOctopressという良さげなものを発見．JekyllというRubyで書かれたスタティックサイトジェネレータを使ったブログ作成ツールっぽい． Octopress is a &hellip;">
+  
 
-<div><div class="CodeRay">
-  <div class="code"><pre>/* To use the light Solarized highlighting theme uncomment the following line */
-//$solarized: light;
-</pre></div>
-</div>
-</div>
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<p><a href="https://ghost.org/">Ghost</a>風になる<a href="https://github.com/jmromer/casper">Casper</a>というテーマがあるのですが，それが， Octopressデフォルトのマークダウンエンジンの代わりにkramdownを使い，コードハイライトにCodeRayをつかっていい感じにしていました．Casperテーマ全体を当てるのは躊躇したので，KramdownとCodeRayのところだけやります．<a href="http://blog.codebykat.com/2013/05/23/gorgeous-octopress-codeblocks-with-coderay/">ここのサイト</a>が分かりやすいです．</p>
+  
+  <link rel="canonical" href="http://narutaro.github.io/blog/2014/04/25/octopress">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Drink Beer, Do Something" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
-<blockquote>
-  <p>By default, Octopress uses a Markdown processor called RDiscount, which defaults to Pygments for code highlighting. Pygments doesn’t seem to have too many options, but it turns out if we switch to kramdown for Markdown processing, we can swap Pygments out for a highlighter called CodeRay. CodeRay allows for much more customization.</p>
-</blockquote>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50048820-2']);
+    _gaq.push(['_trackPageview']);
 
-<p>なるほど．やってみる．</p>
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 
-<h1 id="section-1">ハマったところ</h1>
-<p>基本的に，さっきの<a href="http://blog.codebykat.com/2013/05/23/gorgeous-octopress-codeblocks-with-coderay/">サイト</a>がとてもよく解説しているのですが，二点ほど．</p>
 
-<ul>
-  <li>先のサイトで使っている<code>.scss</code>ファイルをとってくるのは<a href="https://gist.github.com/andrewpthorp/5134070">ここ</a>です．</li>
-  <li><code>{:lang=“language”}</code>の指定をしないと変更が適用されません．<code>~~~</code>で囲むだけだけだとだめです．</li>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Drink Beer, Do Something</a></h1>
+  
+    <h2>But don't write code</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:narutaro.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
 
-<p>こんな感じ．ここまでやって気づいたけどCodeRayってなんかGitHub上では8ヶ月ほど動き止まってる感じ．大丈夫かな？</p>
-]]></content>
-  </entry>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
   
-  <entry>
-    <title type="html"><![CDATA[Octopressでハッカー的ブログ]]></title>
-    <link href="http://narutaro.github.io/blog/2014/04/25/octopress/"/>
-    <updated>2014-04-25T18:24:48-07:00</updated>
-    <id>http://narutaro.github.io/blog/2014/04/25/octopress</id>
-    <content type="html"><![CDATA[<h1 id="octopress--github-pages">Octopress &amp; Github pages</h1>
+  <header>
+    
+      <h1 class="entry-title">Octopressでハッカー的ブログ</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-25T18:24:48-07:00" pubdate data-updated="true">Apr 25<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1 id="octopress--github-pages">Octopress &amp; Github pages</h1>
 <p>Tumblrからの乗り換えの為，新しいブログサービス探してたときに<a href="http://octopress.org/">Octopress</a>という良さげなものを発見．<a href="https://github.com/jekyll/jekyll">Jekyll</a>というRubyで書かれたスタティックサイトジェネレータを使ったブログ作成ツールっぽい．</p>
 
 <blockquote>
@@ -177,7 +228,114 @@ mkdir -p public
 
 <p>いけた．インストールと設定については，こんなところ．</p>
 
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-</feed>
+
+<span class="byline author vcard">Posted by <span class="fn">narutaro</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-25T18:24:48-07:00" pubdate data-updated="true">Apr 25<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github-pages/'>Github pages</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://narutaro.github.io/blog/2014/04/25/octopress/" data-via="narutaro" data-counturl="http://narutaro.github.io/blog/2014/04/25/octopress/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/04/26/octopress-codeblock-customize/" title="Next Post: Octopressのコードブロックをカスタマイズ">Octopressのコードブロックをカスタマイズ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/26/octopress-codeblock-customize/">Octopressのコードブロックをカスタマイズ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/25/octopress/">Octopressでハッカー的ブログ</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - narutaro -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

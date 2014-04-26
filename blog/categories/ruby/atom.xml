@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Drink Beer, Do Something]]></title>
-  <link href="http://narutaro.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Ruby | Drink Beer, Do Something]]></title>
+  <link href="http://narutaro.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
   <updated>2014-04-26T12:02:16-07:00</updated>
   <id>http://narutaro.github.io/</id>
@@ -12,41 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Octopressのコードブロックをカスタマイズ]]></title>
-    <link href="http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize/"/>
-    <updated>2014-04-26T11:51:42-07:00</updated>
-    <id>http://narutaro.github.io/blog/2014/04/26/octopress-codeblock-customize</id>
-    <content type="html"><![CDATA[<h1 id="section">コードブロックの枠の色を変更</h1>
-<p>コードブロックの背景色がデフォルトで紺色みたいな色で見にくいので，もっと明るい色に変更します．基本的に，色カスタマイズは<code>octopress/sass/custom/_colors</code>でやればいいのですが，ここで一つづつ変更するのもめんどくさい．このファイルの以下の部分のコメントを外せばとりあえず明るい色にはなるけど，背景は黄色っぽくてあんまり見やすくない．</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>/* To use the light Solarized highlighting theme uncomment the following line */
-//$solarized: light;
-</pre></div>
-</div>
-</div>
-
-<p><a href="https://ghost.org/">Ghost</a>風になる<a href="https://github.com/jmromer/casper">Casper</a>というテーマがあるのですが，それが， Octopressデフォルトのマークダウンエンジンの代わりにkramdownを使い，コードハイライトにCodeRayをつかっていい感じにしていました．Casperテーマ全体を当てるのは躊躇したので，KramdownとCodeRayのところだけやります．<a href="http://blog.codebykat.com/2013/05/23/gorgeous-octopress-codeblocks-with-coderay/">ここのサイト</a>が分かりやすいです．</p>
-
-<blockquote>
-  <p>By default, Octopress uses a Markdown processor called RDiscount, which defaults to Pygments for code highlighting. Pygments doesn’t seem to have too many options, but it turns out if we switch to kramdown for Markdown processing, we can swap Pygments out for a highlighter called CodeRay. CodeRay allows for much more customization.</p>
-</blockquote>
-
-<p>なるほど．やってみる．</p>
-
-<h1 id="section-1">ハマったところ</h1>
-<p>基本的に，さっきの<a href="http://blog.codebykat.com/2013/05/23/gorgeous-octopress-codeblocks-with-coderay/">サイト</a>がとてもよく解説しているのですが，二点ほど．</p>
-
-<ul>
-  <li>先のサイトで使っている<code>.scss</code>ファイルをとってくるのは<a href="https://gist.github.com/andrewpthorp/5134070">ここ</a>です．</li>
-  <li><code>{:lang=“language”}</code>の指定をしないと変更が適用されません．<code>~~~</code>で囲むだけだけだとだめです．</li>
-</ul>
-
-<p>こんな感じ．ここまでやって気づいたけどCodeRayってなんかGitHub上では8ヶ月ほど動き止まってる感じ．大丈夫かな？</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopressでハッカー的ブログ]]></title>
