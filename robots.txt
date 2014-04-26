@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://narutaro.github.io/sitemap.xml 
