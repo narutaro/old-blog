@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jenkins | Drink Beer, Do Something]]></title>
   <link href="http://narutaro.github.io/blog/categories/jenkins/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
-  <updated>2014-05-31T11:49:37-07:00</updated>
+  <updated>2014-05-31T12:05:56-07:00</updated>
   <id>http://narutaro.github.io/</id>
   <author>
     <name><![CDATA[narutaro]]></name>
@@ -44,7 +44,7 @@
   <li>SSHの鍵設定</li>
 </ul>
 
-<p><img src="../images/article/jenkins_slave_setting/SlaveSetting.png"></p>
+<p><img src="../images/article/jenkins_slave_setting/SlaveNodeSetting.png"></p>
 
 <ul>
   <li><code>Host</code>にスレーブのIPアドレス</li>
