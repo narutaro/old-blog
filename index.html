@@ -9,8 +9,8 @@
   <meta name="author" content="narutaro">
 
   
-  <meta name="description" content="Jenkinsのスレーブ機能がかなり便利だったので皆さんにお知らせ． 今回スレーブが必要となった背景
-大抵のJenkinsスレーブの使い方は，ジョブ数が多くなってきたので負荷分散というケースが多いと思います．同じ設定になったJenkinsサーバが複数あって，同じジョブを分散するイメージ． &hellip;">
+  <meta name="description" content="source/images配下にすきなフォルダをつくって画像をおく mkdir -p source/images/article/my_post
+mv my_pic.png source/images/article/my_post 記事の中に以下を書いておくとそこにimageが表示される &lt &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,57 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/31/octopress-image-upload/">Octpressでimageをアップロードする方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-31T12:28:17-07:00" pubdate data-updated="true">May 31<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>source/images</code>配下にすきなフォルダをつくって画像をおく</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>mkdir -p source/images/article/my_post
+mv my_pic.png source/images/article/my_post
+</pre></div>
+</div>
+</div>
+
+<p>記事の中に以下を書いておくとそこにimageが表示される</p>
+
+<pre><code>&lt;img src="/images/article/jenkins_slave_setting/JobSetting.png"&gt;
+</code></pre>
+
+<p>パス指定は<code>/</code>からはじめないとハマる.</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -391,6 +442,10 @@ mkdir -p public
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/31/octopress-image-upload/">Octpressでimageをアップロードする方法</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/05/31/jekins-slave-setting/">Jenkinsのスレーブ機能が便利すぎる</a>
