@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jenkinsのスレーブ機能が便利すぎる - Drink Beer, Do Something</title>
+  <meta name="author" content="narutaro">
+
+  
+  <meta name="description" content="Jenkinsのスレーブ機能がかなり便利だったので皆さんにお知らせ． 今回スレーブが必要となった背景
+大抵のJenkinsスレーブの使い方は，ジョブ数が多くなってきたので負荷分散というケースが多いと思います．同じ設定になったJenkinsサーバが複数あって，同じジョブを分散するイメージ． &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://narutaro.github.io/blog/2014/05/31/jekins-slave-setting">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Drink Beer, Do Something" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50048820-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Drink Beer, Do Something</a></h1>
+  
+    <h2>Don't even consider reading this blog without a beer in your hand.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:narutaro.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Jenkinsのスレーブ機能が便利すぎる</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-31T11:04:59-07:00" pubdate data-updated="true">May 31<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Jenkinsのスレーブ機能がかなり便利だったので皆さんにお知らせ．</p>
+
+<h1 id="section">今回スレーブが必要となった背景</h1>
+<p>大抵のJenkinsスレーブの使い方は，ジョブ数が多くなってきたので負荷分散というケースが多いと思います．同じ設定になったJenkinsサーバが複数あって，同じジョブを分散するイメージ．このケースは結構Webにも情報がありました．</p>
+
+<p>でも，今回のはむしろ，二つあるJenkinsサーバを楽に統合したいというものでした．すでにCIが動いている，自分のプロジェクトのServer-A Jenkinsと他のプロジェクトのServer-B Jenkinsを統合して集中管理っていう感じ．自分のServer-Aにはjenkinsだけじゃなくて，Javaやらビルドツールやらテストやらいろいろ入っているとして，AをBへくっつけるとするとやり方は</p>
+
+<ul>
+  <li>Server-B Jenkinsから個々のジョブをsshでログインしてServer-A上で実行</li>
+  <li>Server-AをServer-B Jenkinsのスレーブとして設定して，マスタであるServer-Bからジョブをリモート実行</li>
+</ul>
+
+<p>両方やってみましたが，後者の方が圧倒的に楽でした．理由は複数あるジョブの設定を変えずにServer-A JenkinsからB Jenkinsにコピペするだけでいいから．おすすめ．</p>
+
+<h1 id="section-1">マスタスレーブ構成の仕組み</h1>
+<p>スレーブになるマシン(今回はServer-A)の条件は，Javaが入っていることだけ．マスタ側(Server-B Jenkins)でServer-Aをスレーブとして登録するとマスタからスレーブにJavaのエージェントプログラム(jar)が送り込まれます．これによりスレーブ上でマスタ側にあるジョブが実行できる仕組みです．送り込みはssh(scp?)でやっているようです．またマスタ側でどのジョブをどのスレーブで実行するかを設定できますので，単なる不可分散ではなく，ジョブ毎に実行するスレーブを指定する，ルーティングのようなことができます．</p>
+
+<h1 id="section-2">スレーブノードの設定</h1>
+<p>GUI上で，<code>Manage Jenkins</code> &gt; <code>Manage Nodes</code> &gt; <code>New Node</code>とたどって，<code>Dumb Slave</code>を選択．上記の仕組みなので，設定は以下だけ．</p>
+
+<ul>
+  <li>スレーブノードのIPの設定</li>
+  <li>スレーブをどういう風に使うか（全ジョブか特定のジョブだけか，等）</li>
+  <li>SSHの鍵設定</li>
+</ul>
+
+<p><img src="images/article/jenkins_slave_setting/SlaveSetting.png" /></p>
+
+<ul>
+  <li><code>Host</code>にスレーブのIPアドレス</li>
+  <li><code>Usage</code>を<code>Leave this node for tied jobs only</code>にします．後でジョブを設定するときにこのスレーブノードを選択したジョブのみこのスレーブで実行されます．</li>
+  <li><code>Credentials</code>のところで，<code>Add</code>すると以下のSSHの認証設定画面がポップアップ.ここで<code>Kind</code>のところを<code>SSH Username with private key</code>として，<code>Username</code>にスレーブ側に接続するときのユーザ名をいれて，<code>Private Key</code>にSSHの秘密鍵をコピペ</li>
+</ul>
+
+<p><img src="images/article/jenkins_slave_setting/SSHKeySetting.png" /></p>
+
+<h1 id="section-3">ジョブ側の設定</h1>
+<p>GUIでスレーブ上で実行したいジョブの設定画面にいって，<code>Restrict where this project can be run</code>にチェックを入れて，さっき作ったスレーブの名前を指定．こんだけです．</p>
+
+<p>マスタとスレーブの環境が違うと，マスタ側にはないパスとかツールを指定したりすることもあったりして，いろいろエラーがでることもあると思いますが，あくまでスレーブの設定をしているので，気にしなくていいです．</p>
+
+<p><img src="images/article/jenkins_slave_setting/JobSetting.png" /></p>
+
+<p>あとはマスタ側でジョブを実行すると，スレーブで実行されて，ビルド結果はマスタ上で見れるはずです．すごい．
+Jenkinsは驚くほど簡単にマイグレーション，スケールアウトができることが分かりました．これは使わないと．</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">narutaro</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-31T11:04:59-07:00" pubdate data-updated="true">May 31<span>st</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jenkins/'>Jenkins</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://narutaro.github.io/blog/2014/05/31/jekins-slave-setting/" data-via="narutaro" data-counturl="http://narutaro.github.io/blog/2014/05/31/jekins-slave-setting/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/26/octopress-codeblock-customize/" title="Previous Post: Octopressのコードブロックをカスタマイズ">&laquo; Octopressのコードブロックをカスタマイズ</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/31/jekins-slave-setting/">Jenkinsのスレーブ機能が便利すぎる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/26/octopress-codeblock-customize/">Octopressのコードブロックをカスタマイズ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/25/octopress/">Octopressでハッカー的ブログ</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - narutaro -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

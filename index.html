@@ -9,8 +9,8 @@
   <meta name="author" content="narutaro">
 
   
-  <meta name="description" content="コードブロックの枠の色を変更
-コードブロックの背景色がデフォルトで紺色みたいな色で見にくいので，もっと明るい色に変更します．基本的に，色カスタマイズはoctopress/sass/custom/_colorsでやればいいのですが，ここで一つづつ変更するのもめんどくさい． &hellip;">
+  <meta name="description" content="Jenkinsのスレーブ機能がかなり便利だったので皆さんにお知らせ． 今回スレーブが必要となった背景
+大抵のJenkinsスレーブの使い方は，ジョブ数が多くなってきたので負荷分散というケースが多いと思います．同じ設定になったJenkinsサーバが複数あって，同じジョブを分散するイメージ． &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/31/jekins-slave-setting/">Jenkinsのスレーブ機能が便利すぎる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-31T11:04:59-07:00" pubdate data-updated="true">May 31<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jenkinsのスレーブ機能がかなり便利だったので皆さんにお知らせ．</p>
+
+<h1 id="section">今回スレーブが必要となった背景</h1>
+<p>大抵のJenkinsスレーブの使い方は，ジョブ数が多くなってきたので負荷分散というケースが多いと思います．同じ設定になったJenkinsサーバが複数あって，同じジョブを分散するイメージ．このケースは結構Webにも情報がありました．</p>
+
+<p>でも，今回のはむしろ，二つあるJenkinsサーバを楽に統合したいというものでした．すでにCIが動いている，自分のプロジェクトのServer-A Jenkinsと他のプロジェクトのServer-B Jenkinsを統合して集中管理っていう感じ．自分のServer-Aにはjenkinsだけじゃなくて，Javaやらビルドツールやらテストやらいろいろ入っているとして，AをBへくっつけるとするとやり方は</p>
+
+<ul>
+  <li>Server-B Jenkinsから個々のジョブをsshでログインしてServer-A上で実行</li>
+  <li>Server-AをServer-B Jenkinsのスレーブとして設定して，マスタであるServer-Bからジョブをリモート実行</li>
+</ul>
+
+<p>両方やってみましたが，後者の方が圧倒的に楽でした．理由は複数あるジョブの設定を変えずにServer-A JenkinsからB Jenkinsにコピペするだけでいいから．おすすめ．</p>
+
+<h1 id="section-1">マスタスレーブ構成の仕組み</h1>
+<p>スレーブになるマシン(今回はServer-A)の条件は，Javaが入っていることだけ．マスタ側(Server-B Jenkins)でServer-Aをスレーブとして登録するとマスタからスレーブにJavaのエージェントプログラム(jar)が送り込まれます．これによりスレーブ上でマスタ側にあるジョブが実行できる仕組みです．送り込みはssh(scp?)でやっているようです．またマスタ側でどのジョブをどのスレーブで実行するかを設定できますので，単なる不可分散ではなく，ジョブ毎に実行するスレーブを指定する，ルーティングのようなことができます．</p>
+
+<h1 id="section-2">スレーブノードの設定</h1>
+<p>GUI上で，<code>Manage Jenkins</code> &gt; <code>Manage Nodes</code> &gt; <code>New Node</code>とたどって，<code>Dumb Slave</code>を選択．上記の仕組みなので，設定は以下だけ．</p>
+
+<ul>
+  <li>スレーブノードのIPの設定</li>
+  <li>スレーブをどういう風に使うか（全ジョブか特定のジョブだけか，等）</li>
+  <li>SSHの鍵設定</li>
+</ul>
+
+<p><img src="images/article/jenkins_slave_setting/SlaveSetting.png" /></p>
+
+<ul>
+  <li><code>Host</code>にスレーブのIPアドレス</li>
+  <li><code>Usage</code>を<code>Leave this node for tied jobs only</code>にします．後でジョブを設定するときにこのスレーブノードを選択したジョブのみこのスレーブで実行されます．</li>
+  <li><code>Credentials</code>のところで，<code>Add</code>すると以下のSSHの認証設定画面がポップアップ.ここで<code>Kind</code>のところを<code>SSH Username with private key</code>として，<code>Username</code>にスレーブ側に接続するときのユーザ名をいれて，<code>Private Key</code>にSSHの秘密鍵をコピペ</li>
+</ul>
+
+<p><img src="images/article/jenkins_slave_setting/SSHKeySetting.png" /></p>
+
+<h1 id="section-3">ジョブ側の設定</h1>
+<p>GUIでスレーブ上で実行したいジョブの設定画面にいって，<code>Restrict where this project can be run</code>にチェックを入れて，さっき作ったスレーブの名前を指定．こんだけです．</p>
+
+<p>マスタとスレーブの環境が違うと，マスタ側にはないパスとかツールを指定したりすることもあったりして，いろいろエラーがでることもあると思いますが，あくまでスレーブの設定をしているので，気にしなくていいです．</p>
+
+<p><img src="images/article/jenkins_slave_setting/JobSetting.png" /></p>
+
+<p>あとはマスタ側でジョブを実行すると，スレーブで実行されて，ビルド結果はマスタ上で見れるはずです．すごい．
+Jenkinsは驚くほど簡単にマイグレーション，スケールアウトができることが分かりました．これは使わないと．</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -311,6 +391,10 @@ mkdir -p public
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/31/jekins-slave-setting/">Jenkinsのスレーブ機能が便利すぎる</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/04/26/octopress-codeblock-customize/">Octopressのコードブロックをカスタマイズ</a>
