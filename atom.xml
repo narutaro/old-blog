@@ -4,7 +4,7 @@
   <title><![CDATA[Drink Beer, Do Something]]></title>
   <link href="http://narutaro.github.io/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
-  <updated>2014-05-31T13:16:57-07:00</updated>
+  <updated>2014-05-31T13:56:23-07:00</updated>
   <id>http://narutaro.github.io/</id>
   <author>
     <name><![CDATA[narutaro]]></name>
@@ -18,7 +18,7 @@
     <link href="http://narutaro.github.io/blog/2014/05/31/octopress-image-upload/"/>
     <updated>2014-05-31T12:28:17-07:00</updated>
     <id>http://narutaro.github.io/blog/2014/05/31/octopress-image-upload</id>
-    <content type="html"><![CDATA[<p><code>source/images</code>配下にすきなフォルダをつくって画像をおくと<code>rake deploy</code>でデプロイされます.</p>
+    <content type="html"><![CDATA[<p><code>source/images</code>配下にimageファイルを置いておいて<code>rake deploy</code>すると，記事と一緒にデプロイされます. サブディレクトリを作ることもできます.</p>
 
 <div><div class="CodeRay">
   <div class="code"><pre>mkdir -p source/images/article/my_post
@@ -27,7 +27,7 @@ mv my_pic.png source/images/article/my_post
 </div>
 </div>
 
-<p>記事の中に以下を書いておくとそこにimageが表示される</p>
+<p>記事の中では以下のようにimageを指定します.</p>
 
 <div><div class="CodeRay">
   <div class="code"><pre>{% img /images/article/my_post/my_pic.png %}

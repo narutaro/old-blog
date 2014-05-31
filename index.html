@@ -9,8 +9,8 @@
   <meta name="author" content="narutaro">
 
   
-  <meta name="description" content="source/images配下にすきなフォルダをつくって画像をおくとrake deployでデプロイされます. mkdir -p source/images/article/my_post
-mv my_pic.png source/images/article/my_post &hellip;">
+  <meta name="description" content="source/images配下にimageファイルを置いておいてrake deployすると，記事と一緒にデプロイされます. サブディレクトリを作ることもできます. mkdir -p source/images/article/my_post
+mv my_pic.png source/images &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -107,7 +107,7 @@ mv my_pic.png source/images/article/my_post &hellip;">
   </header>
 
 
-  <div class="entry-content"><p><code>source/images</code>配下にすきなフォルダをつくって画像をおくと<code>rake deploy</code>でデプロイされます.</p>
+  <div class="entry-content"><p><code>source/images</code>配下にimageファイルを置いておいて<code>rake deploy</code>すると，記事と一緒にデプロイされます. サブディレクトリを作ることもできます.</p>
 
 <div><div class="CodeRay">
   <div class="code"><pre>mkdir -p source/images/article/my_post
@@ -116,7 +116,7 @@ mv my_pic.png source/images/article/my_post
 </div>
 </div>
 
-<p>記事の中に以下を書いておくとそこにimageが表示される</p>
+<p>記事の中では以下のようにimageを指定します.</p>
 
 <div><div class="CodeRay">
   <div class="code"><pre>{% img /images/article/my_post/my_pic.png %}
