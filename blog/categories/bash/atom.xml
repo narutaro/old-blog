@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Bash | Drink Beer, Do Something]]></title>
   <link href="http://narutaro.github.io/blog/categories/bash/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
-  <updated>2014-06-14T11:35:00-07:00</updated>
+  <updated>2014-06-14T11:37:03-07:00</updated>
   <id>http://narutaro.github.io/</id>
   <author>
     <name><![CDATA[narutaro]]></name>
@@ -50,7 +50,7 @@ my_name@my_local_server:~$ ssh my_name@my_remote_server -i key.pem env | wc -l
 </div>
 </div>
 
-<p>でいいのかもしれませんが，実行コマンドが増えるといちいち変数を設定するのがめんどくさくなってきます．で，どうやらsshサーバ側の<code>/etc/sshd_config</code>で<code>PermitUserEnvironment yes</code>としておけば，非対話型でもリモート側の環境変数が読み込まれるようです．</p>
+<p>でいいのかもしれませんが，実行コマンドが増えるといちいち変数を設定するのがめんどくさくなってきます．で，少し調べてみると，どうやらsshサーバ側の<code>/etc/sshd_config</code>で<code>PermitUserEnvironment yes</code>としておけば，非対話型でもリモート側の環境変数が読み込まれるようです．</p>
 
 <p>ほぼこれで解決したのですが，私の場合はなぜか一つだけ一つだけ読み込まれずさらに調査．結局はその変数だけは<code>MY_VALUE=“VALUE”</code>をつかうことに．足りてない変数を見つけたきっかけは，sshのデバッグオプション<code>ssh -vvv</code>. 環境変数周りも全部出力してくれて，必要な情報を得ることができます．<a href="http://april.fool.jp/blogs/2013/07/freebsdlinux-ssh%E7%B5%8C%E7%94%B1%E3%81%A7%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B%E3%81%A8%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0%E3%82%92%E8%AA%AD%E3%81%BE%E3%81%AA/">ここ</a>が参考になります．</p>
 ]]></content>
