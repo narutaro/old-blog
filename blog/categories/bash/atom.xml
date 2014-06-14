@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Bash | Drink Beer, Do Something]]></title>
   <link href="http://narutaro.github.io/blog/categories/bash/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
-  <updated>2014-06-14T11:42:54-07:00</updated>
+  <updated>2014-06-14T11:43:29-07:00</updated>
   <id>http://narutaro.github.io/</id>
   <author>
     <name><![CDATA[narutaro]]></name>
@@ -29,17 +29,23 @@
 
 <p>コマンドが<code>ls</code>なんかだと問題ないですが，ここで，最後のコマンドの部分がリモートサーバのbash環境変数に依存している場合，コケます．bashが非対話型で起動された場合，<code>/etc/profile</code>とか<code>.bash_profile</code>とか.<code>bashrc</code>は読み込まれないからです．実は，Jenkinsというよりはshellの仕様の話です．</p>
 
-<p lang="bash">手元にある環境で比較してみると，対話型起動の場合
-~~~
-my_name@my_remote_server:~$ env | wc -l
-26
-~~~</p>
+<p>手元にある環境で比較してみると，対話型起動の場合</p>
 
-<p lang="bash">非対話型の場合
-~~~
-my_name@my_local_server:~$ ssh my_name@my_remote_server -i key.pem env | wc -l
+<div><div class="CodeRay">
+  <div class="code"><pre>my_name@my_remote_server:~$ env | wc -l
+26
+</pre></div>
+</div>
+</div>
+
+<p>非対話型の場合</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>my_name@my_local_server:~$ ssh my_name@my_remote_server -i key.pem env | wc -l
 12
-~~~</p>
+</pre></div>
+</div>
+</div>
 
 <p>となりました．私はリモート側で　rubyを使っていたのですが，<code>rbenv</code>の切り替えに必要なパスが読み込まれない為に，正しいバージョンのrubyやgemを使えずコケてました．</p>
 
