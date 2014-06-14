@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Bash | Drink Beer, Do Something]]></title>
+  <link href="http://narutaro.github.io/blog/categories/bash/atom.xml" rel="self"/>
+  <link href="http://narutaro.github.io/"/>
+  <updated>2014-06-14T11:35:00-07:00</updated>
+  <id>http://narutaro.github.io/</id>
+  <author>
+    <name><![CDATA[narutaro]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Jenkinsでsshしたらハマった]]></title>
+    <link href="http://narutaro.github.io/blog/2014/06/14/jenkins-ssh-fail/"/>
+    <updated>2014-06-14T10:52:48-07:00</updated>
+    <id>http://narutaro.github.io/blog/2014/06/14/jenkins-ssh-fail</id>
+    <content type="html"><![CDATA[<h2 id="section">リモートサーバでのコマンド実行がコケる</h2>
+<p>Jenkinsだと頻繁にリモートサーバでコマンド実行したくなる状況があります．普通は手でリモートサーバにsshログインしてコマンド実行して動くのを確認して，よし，Jenkinsから同じことをさせようとなると思います．このときsshを非対話モードで使うと，Jenkins上では単なる「Shellの実行」を設定するだけでいいので以下のようにやりがちです．</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>ssh user_name@my_remote_server -i key.pem ls -l 
+</pre></div>
+</div>
+</div>
+
+<p>コマンドが<code>ls</code>なんかだと問題ないですが，ここで，最後のコマンドの部分がリモートサーバのbash環境変数に依存している場合，コケます．bashが対話型で起動されていないからです．<code>/etc/profile</code>とか<code>.bash_profile</code>とか.<code>bashrc</code>は非対話型で起動されたシェルでは読み込まれないようです．実は，Jenkinsというよりはshellの仕様の話です．</p>
+
+<p lang="bash">手元にある環境で比較してみると，対話型起動の場合
+~~~
+my_name@my_remote_server:~$ env | wc -l
+26
+~~~</p>
+
+<p lang="bash">非対話型の場合
+~~~
+my_name@my_local_server:~$ ssh my_name@my_remote_server -i key.pem env | wc -l
+12
+~~~</p>
+
+<p>となりました．私はリモート側で　<code>ruby</code>を使っていたのですが，<code>rbenv</code>の切り替えに必要なパスが読み込まれない為に，正しいバージョンの<code>ruby</code>や<code>gem</code>を使えずコケてました．</p>
+
+<h2 id="section-1">対策としては</h2>
+<div><div class="CodeRay">
+  <div class="code"><pre>my_name@my_local_server:~$ ssh my_name@my_remote_server -i key.pem env MY_VALUE=“VALUE” ; env | wc -l
+</pre></div>
+</div>
+</div>
+
+<p>でいいのかもしれませんが，実行コマンドが増えるといちいち変数を設定するのがめんどくさくなってきます．で，どうやらsshサーバ側の<code>/etc/sshd_config</code>で<code>PermitUserEnvironment yes</code>としておけば，非対話型でもリモート側の環境変数が読み込まれるようです．</p>
+
+<p>ほぼこれで解決したのですが，私の場合はなぜか一つだけ一つだけ読み込まれずさらに調査．結局はその変数だけは<code>MY_VALUE=“VALUE”</code>をつかうことに．足りてない変数を見つけたきっかけは，sshのデバッグオプション<code>ssh -vvv</code>. 環境変数周りも全部出力してくれて，必要な情報を得ることができます．<a href="http://april.fool.jp/blogs/2013/07/freebsdlinux-ssh%E7%B5%8C%E7%94%B1%E3%81%A7%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B%E3%81%A8%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0%E3%82%92%E8%AA%AD%E3%81%BE%E3%81%AA/">ここ</a>が参考になります．</p>
+]]></content>
+  </entry>
+  
+</feed>
