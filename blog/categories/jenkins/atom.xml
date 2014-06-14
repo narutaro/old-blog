@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jenkins | Drink Beer, Do Something]]></title>
   <link href="http://narutaro.github.io/blog/categories/jenkins/atom.xml" rel="self"/>
   <link href="http://narutaro.github.io/"/>
-  <updated>2014-06-14T11:38:08-07:00</updated>
+  <updated>2014-06-14T11:41:45-07:00</updated>
   <id>http://narutaro.github.io/</id>
   <author>
     <name><![CDATA[narutaro]]></name>
@@ -27,7 +27,7 @@
 </div>
 </div>
 
-<p>コマンドが<code>ls</code>なんかだと問題ないですが，ここで，最後のコマンドの部分がリモートサーバのbash環境変数に依存している場合，コケます．bashが対話型で起動されていないからです．<code>/etc/profile</code>とか<code>.bash_profile</code>とか.<code>bashrc</code>は非対話型で起動されたシェルでは読み込まれないようです．実は，Jenkinsというよりはshellの仕様の話です．</p>
+<p>コマンドが<code>ls</code>なんかだと問題ないですが，ここで，最後のコマンドの部分がリモートサーバのbash環境変数に依存している場合，コケます．bashが非対話型で起動された場合，<code>/etc/profile</code>とか<code>.bash_profile</code>とか.<code>bashrc</code>は読み込まれないからです．実は，Jenkinsというよりはshellの仕様の話です．</p>
 
 <p lang="bash">手元にある環境で比較してみると，対話型起動の場合
 ~~~
@@ -41,7 +41,7 @@ my_name@my_local_server:~$ ssh my_name@my_remote_server -i key.pem env | wc -l
 12
 ~~~</p>
 
-<p>となりました．私はリモート側で　<code>ruby</code>を使っていたのですが，<code>rbenv</code>の切り替えに必要なパスが読み込まれない為に，正しいバージョンの<code>ruby</code>や<code>gem</code>を使えずコケてました．</p>
+<p>となりました．私はリモート側で　rubyを使っていたのですが，<code>rbenv</code>の切り替えに必要なパスが読み込まれない為に，正しいバージョンのrubyやgemを使えずコケてました．</p>
 
 <h2 id="section-1">対策としては</h2>
 <div><div class="CodeRay">
